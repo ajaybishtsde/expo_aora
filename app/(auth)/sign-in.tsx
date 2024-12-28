@@ -1,10 +1,11 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, Alert } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
 import InputFiled from "@/components/inputFiled";
 import CustomButton from "@/components/customButton";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import { signIn } from "@/lib/apwrite";
 interface FormType {
   email: string;
   password: string;
@@ -15,8 +16,24 @@ const SignIn = () => {
     email: "",
     password: "",
   });
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log("formData>>>>>>>>>>>>>>>>>>>>>>>>>>", formData);
+    if (!formData.email || !formData.password) {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
+    setIsSubmitting(true);
+
+    try {
+      await signIn(formData.email, formData.password);
+      // todo:Set user to global context
+      router.replace("/home");
+    } catch (error: unknown) {
+      console.log("error", error);
+      Alert.alert("Error", (error as Error).message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -63,7 +80,7 @@ const SignIn = () => {
               href="/sign-up"
               className="text-lg font-psemibold text-secondary"
             >
-              Sign up
+              Sign Up
             </Link>
           </View>
         </View>
