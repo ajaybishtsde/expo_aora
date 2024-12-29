@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/lib/apwrite";
+import { getCurrentUser } from "@/lib/appwrite";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 // Define the type for your context state

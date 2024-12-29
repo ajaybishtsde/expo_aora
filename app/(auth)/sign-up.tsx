@@ -5,7 +5,7 @@ import { images } from "../../constants";
 import InputFiled from "@/components/inputFiled";
 import CustomButton from "@/components/customButton";
 import { Link, router } from "expo-router";
-import { createUser } from "@/lib/apwrite";
+import { createUser } from "@/lib/appwrite";
 interface FormType {
   username: string;
   email: string;

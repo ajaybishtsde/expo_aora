@@ -91,3 +91,30 @@ export const getCurrentUser = async () => {
     throw new Error("Something went wrong");
   }
 };
+
+export const getAllPosts = async () => {
+  try {
+    const posts = await databases.listDocuments(
+      config.databaseId,
+      config.videoCollectionId
+    );
+    return posts.documents;
+  } catch (error) {
+    console.log("error>>>>>>>>>.", error);
+    throw new Error("Something went wrong");
+  }
+};
+
+export const getLatestPosts = async () => {
+  try {
+    const posts = await databases.listDocuments(
+      config.databaseId,
+      config.videoCollectionId,
+      [Query.orderDesc("$createdAt"), Query.limit(7)]
+    );
+    return posts.documents;
+  } catch (error) {
+    console.log("error>>>>>>>>>.", error);
+    throw new Error("Something went wrong");
+  }
+};
